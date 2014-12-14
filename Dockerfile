@@ -5,6 +5,7 @@ RUN useradd -m sinopia
 RUN passwd -d sinopia
 RUN mkdir -p /opt/sinopia/storage
 RUN chown -R sinopia:sinopia /opt/sinopia
+RUN pacman -S --noconfirm couchdb
 USER sinopia
 WORKDIR /opt/sinopia
 RUN npm install js-yaml sinopia 
