@@ -21,9 +21,9 @@ Sinopia is a private npm repository server
 ### Modify configuration
 
 ```
-# Save the config file
-curl -L https://raw.githubusercontent.com/rlidwka/sinopia/master/conf/default.yaml -o /path/to/config.yaml
-# Mount the config file to the exposed data volume
+ # Save the config file
+curl -L https://raw.githubusercontent.com/rlidwka/sinopia/master/conf/full.yaml -o /path/to/config.yaml
+ # Mount the config file to the exposed data volume
 docker run -v /path/to/config.yaml:/opt/sinopia/config.yaml --name sinopia -d -p 4873:4873 drewwells/sinopia
 ```
 
@@ -31,7 +31,12 @@ Restart the container anytime you change the config.
 
 ### Backups
 
-`docker run --volumes-from sinopia -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /opt/sinopia`
+```bash
+mkdir backup
+ # make the backup folder writable, if you are not root
+chmod 777 backup
+docker run --volumes-from sinopia -v $(pwd):/backup ajnasz/rpi-sinopia tar cvf /backup/backup.tar /opt/sinopia
+```
 
 Alternatively, host path for /opt/sinopia can be determined by running:
 
@@ -42,13 +47,12 @@ Alternatively, host path for /opt/sinopia can be determined by running:
 ```
 docker stop sinopia
 docker rm sinopia
-docker run --name sinopia -d -p 4873:4873 keyvanfatehi/sinopia:0.12.0
+docker run --name sinopia -d -p 4873:4873 ajnasz/rpi-sinopia
 docker stop sinopia
-docker run --volumes-from sinopia -v $(pwd):/backup ubuntu tar xvf /backup/backup.tar
+docker run --volumes-from sinopia -v $(pwd):/backup ajnasz/rpi-sinopia tar xvf /backup/backup.tar
 docker start sinopia
 ```
 
 ## Links
 
 * [Sinopia on Github](https://github.com/rlidwka/sinopia)
-
