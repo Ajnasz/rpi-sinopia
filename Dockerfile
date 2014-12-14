@@ -1,10 +1,6 @@
 # FROM sdhibit/rpi-raspbian
-FROM cellofellow/rpi-arch
+FROM ajnasz/rpi-node
 MAINTAINER Lajos Koszti <ajnasz@ajnasz.hu>
-RUN pacman -Syu --noconfirm
-RUN pacman -S --noconfirm nodejs python2 couchdb
-ENV PYTHON /usr/bin/python2
-# RUN adduser --disabled-password --gecos "" sinopia
 RUN useradd -m sinopia
 RUN passwd -d sinopia
 RUN mkdir -p /opt/sinopia/storage
